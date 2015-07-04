@@ -75,6 +75,7 @@ def hard_words(word_list):
 
 
 def ask_user_guess(mini_word_list):
+    """Given mini_word list, prompts user to guess letters, if match game won. also launches is_play_again()"""
     magic_word = ''.join((random_word(mini_word_list)).upper())
     guesses_left = 8
     char_length = len(magic_word)
@@ -104,13 +105,16 @@ def ask_user_guess(mini_word_list):
         print("Time out. The Mystery word was {}".format(magic_word))
         is_play_again()
 
+
 def is_play_again():
+    """Prompts user to replay,  if so relaunches gameplay"""
     play_status = input("Would you like to play again? Y or N >\n ")
     if play_status.upper() == "Y":
         mini_word_list = (size_selector(word_list))
         ask_user_guess(mini_word_list)
     else:
         print("Bye, thank you for playing.")
+
 
 def random_word(word_list):
     """This picks a random word from our word_list just to pass test"""
