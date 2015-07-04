@@ -14,37 +14,45 @@ def read_file(textfile):
         cleaned_word = word[0:(len(word) - 1)]
         word_list[index] = cleaned_word
         index += 1
-    print(word_list[0:9])
     print("length of word_list is {}".format(len(word_list)))
     return word_list
 
 
-def size_selector():
-    """Asks user to select easy (4-6), normal(6-8) or hard(8+) mode and returns randomized number of chars"""
+def size_selector(word_list):
+    """Asks user to select easy (4-6), normal(6-8) or hard(8+), runs mode funtion, returns mini_word_list"""
     user_mode = 0
     while user_mode == 0:
-        user_selection = input("Welcome to Mystery Word!\n Do you want to play in (E)ASY, (N)ORMAL, or (H)ARD mode? > ")
+        user_selection = input("Welcome to Mystery Word\n  (E)ASY, (N)ORMAL, or (H)ARD mode? \n> ")
         if user_selection.lower() == "e" or user_selection.lower() == "easy":
+            print("Easy Mode Enabled")
             user_mode = "easy"
-            easy_words(word_list)
+            mini_word_list = easy_words(word_list)
+            return mini_word_list
         elif user_selection.lower() == "n" or user_selection.lower() == "normal":
-            medium_words(word_list)
+            print("Normal Mode Enabled")
             user_mode = "normal"
+            mini_word_list = medium_words(word_list)
+            return mini_word_list
         elif user_selection.lower() == "h" or user_selection.lower() == "hard":
-            hard_words(word_list)
+            print("Hard Mode Enabled")
+            mini_word_list = hard_words(word_list)
             user_mode = "hard"
+            return mini_word_list
         else:
             user_mode = 0
-    return user_mode
 
 
 def easy_words(word_list):
     """Given word list, returns a subset list of those words 4-6 characters in size"""
-    # char_size = random.randrange(4, (6+1), 1)
+    print("Easy Peasye")
+    print(word_list[0])
     mini_word_list = []
     for word in word_list:
         if 4 <= len(word) <= 6:
             mini_word_list.append(word)
+    print("This is mini_word_list")
+    print(len(mini_word_list))
+    print(mini_word_list[0:4])
     return mini_word_list
 
 
@@ -67,23 +75,46 @@ def hard_words(word_list):
 
 
 def ask_user_guess(mini_word_list):
-    magic_word = random_word(word_list)
+    magic_word = ''.join((random_word(mini_word_list)).upper())
     guesses_left = 8
-    char_length = len(mini_word_list[0])
+    char_length = len(magic_word)
     print("I'm thinking of a word that has {} characters.".format(char_length))
-    print("_ " * char_length)
-    while guesses_left > 0:
-        user_guess = input("Spell the word. Give me a letter > ")
+    guessed_word = str("_" * char_length)
+    while guessed_word != magic_word and guesses_left > 0:
+        user_guess = (input("Give me a letter \n> ")).upper()
         if user_guess in magic_word:
+            index = 0
+            for letter in magic_word:
+                #if magic word letter at that index matches letter of user_guess, replace guessed_word at that index
+                if magic_word[index] == user_guess:
+                    list_guessed_word = list(guessed_word)
+                    list_guessed_word[index] = user_guess
+                    guessed_word = ''.join(list_guessed_word)
+                index += 1
             print("Yes {} is in {}".format(user_guess, magic_word))
+            print(guessed_word)
         else:
-            print("There is no {} in the mystery word.".format(user_guess))
+            print("There is no {} in the mystery word {}.".format(user_guess, magic_word))
+            print(guessed_word)
             guesses_left -= 1
+    if guessed_word == magic_word:
+        print("Congratulations! The Mystery Word is {}".format(guessed_word))
+        is_play_again()
+    else:
+        print("Time out. The Mystery word was {}".format(magic_word))
+        is_play_again()
+
+def is_play_again():
+    play_status = input("Would you like to play again? Y or N >\n ")
+    if play_status.upper() == "Y":
+        mini_word_list = (size_selector(word_list))
+        ask_user_guess(mini_word_list)
+    else:
+        print("Bye, thank you for playing.")
 
 def random_word(word_list):
     """This picks a random word from our word_list just to pass test"""
     return (random.sample(word_list, 1))[0]
-    #return random.sample(word_list, 1)
 
 
 def display_word(word, lst):
@@ -97,6 +128,5 @@ def is_word_complete(word, lst):
 
 if __name__ == "__main__":
     word_list = read_file("web2")
-    print(word_list[0:7])
-    print(size_selector())
-    ask_user_guess(easy_words(word_list))
+    mini_word_list = (size_selector(word_list))
+    ask_user_guess(mini_word_list)
