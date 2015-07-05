@@ -44,15 +44,13 @@ def size_selector(word_list):
 
 def easy_words(word_list):
     """Given word list, returns a subset list of those words 4-6 characters in size"""
-    print("Easy Peasye")
+    print("Easy Peasy")
     print(word_list[0])
     mini_word_list = []
     for word in word_list:
         if 4 <= len(word) <= 6:
             mini_word_list.append(word)
-    print("This is mini_word_list")
-    print(len(mini_word_list))
-    print(mini_word_list[0:4])
+    print("{} possible words".format(len(mini_word_list)))
     return mini_word_list
 
 
@@ -86,17 +84,18 @@ def ask_user_guess(mini_word_list):
         if user_guess in magic_word:
             index = 0
             for letter in magic_word:
-                #if magic word letter at that index matches letter of user_guess, replace guessed_word at that index
+                # if magic word letter at that index matches letter of user_guess, replace guessed_word at that index
                 if magic_word[index] == user_guess:
                     list_guessed_word = list(guessed_word)
                     list_guessed_word[index] = user_guess
                     guessed_word = ''.join(list_guessed_word)
                 index += 1
+            # TODO call a funciton display_word() that properly spaces words
             print("Yes {} is in {}".format(user_guess, magic_word))
-            print(guessed_word)
+            print(display_word(guessed_word))
         else:
-            print("There is no {} in the mystery word {}.".format(user_guess, magic_word))
-            print(guessed_word)
+            print("There is no {} in the mystery word (DEBUG: {}).".format(user_guess, magic_word))
+            print(display_word(guessed_word))
             guesses_left -= 1
     if guessed_word == magic_word:
         print("Congratulations! The Mystery Word is {}".format(guessed_word))
@@ -107,7 +106,7 @@ def ask_user_guess(mini_word_list):
 
 
 def is_play_again():
-    """Prompts user to replay,  if so relaunches gameplay"""
+    """Prompts user to replay, if so relaunches gameplay"""
     play_status = input("Would you like to play again? Y or N >\n ")
     if play_status.upper() == "Y":
         mini_word_list = (size_selector(word_list))
@@ -121,9 +120,9 @@ def random_word(word_list):
     return (random.sample(word_list, 1))[0]
 
 
-def display_word(word, lst):
-    # the blank is default
-    pass
+def display_word(word):
+    """Takes in a string, returns that string single-spaced"""
+    return ' '.join(list(word))
 
 
 def is_word_complete(word, lst):
@@ -132,5 +131,6 @@ def is_word_complete(word, lst):
 
 if __name__ == "__main__":
     word_list = read_file("web2")
-    mini_word_list = (size_selector(word_list))
-    ask_user_guess(mini_word_list)
+    ask_user_guess(size_selector(word_list))
+    # mini_word_list = (size_selector(word_list))
+    # ask_user_guess(mini_word_list)
