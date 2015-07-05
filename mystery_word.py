@@ -59,6 +59,7 @@ def medium_words(word_list):
     for word in word_list:
         if len(word) >= 6 and len(word) <= 8:
             mini_word_list.append(word)
+    print("{} possible words".format(len(mini_word_list)))
     return mini_word_list
 
 
@@ -68,6 +69,7 @@ def hard_words(word_list):
     for word in word_list:
         if len(word) >= 8:
             mini_word_list.append(word)
+    print("{} possible words".format(len(mini_word_list)))
     return mini_word_list
 
 
@@ -78,8 +80,12 @@ def ask_user_guess(mini_word_list):
     char_length = len(magic_word)
     print("I'm thinking of a word that has {} characters.".format(char_length))
     guessed_word = str("_" * char_length)
+    chosen_letters = []
     while guessed_word != magic_word and guesses_left > 0:
         user_guess = (input("Give me a letter \n> ")).upper()
+        chosen_letters.extend(user_guess)
+        if user_guess in chosen_letters and len(chosen_letters) > 1:
+            print("You already chose {} but I won't count it against you.".format(user_guess))
         if user_guess in magic_word:
             index = 0
             for letter in magic_word:
