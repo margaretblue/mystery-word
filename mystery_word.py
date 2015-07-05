@@ -85,7 +85,7 @@ def ask_user_guess(mini_word_list):
         user_guess = (input("Give me a letter \n> ")).upper()
         chosen_letters.extend(user_guess)
         if user_guess in chosen_letters and len(chosen_letters) > 1:
-            print("You already chose {} but I won't count it against you.".format(user_guess))
+            print("You already chose the letter {}.".format(user_guess))
         if user_guess in magic_word:
             index = 0
             for letter in magic_word:
