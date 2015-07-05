@@ -1,4 +1,3 @@
-import re
 import random
 
 
@@ -91,10 +90,10 @@ def ask_user_guess(mini_word_list):
                     guessed_word = ''.join(list_guessed_word)
                 index += 1
             # TODO call a funciton display_word() that properly spaces words
-            print("Yes {} is in {}".format(user_guess, magic_word))
+            print("Yes {} is in the Mystery Word DEBUG:{}".format(user_guess, magic_word))
             print(display_word(guessed_word))
         else:
-            print("There is no {} in the mystery word (DEBUG: {}).".format(user_guess, magic_word))
+            print("There is no {} in the mystery word DEBUG: {}.".format(user_guess, magic_word))
             print(display_word(guessed_word))
             guesses_left -= 1
     if guessed_word == magic_word:
